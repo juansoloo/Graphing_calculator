@@ -1,4 +1,7 @@
-package MVC;
+package MVC.View;
+
+import MVC.Controller.CalculatorController;
+import MVC.Model.EquationModel;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;

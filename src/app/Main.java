@@ -1,6 +1,9 @@
 package app;
 
-import MVC.*;
+import MVC.Controller.CalculatorController;
+import MVC.Model.EquationModel;
+import MVC.View.DisplayView;
+import MVC.View.KeypadView;
 
 import javax.swing.*;
 import java.awt.*;

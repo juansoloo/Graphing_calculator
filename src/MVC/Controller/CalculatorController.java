@@ -1,4 +1,6 @@
-package MVC;
+package MVC.Controller;
+
+import MVC.Model.EquationModel;
 
 public class CalculatorController  {
     private final EquationModel model;

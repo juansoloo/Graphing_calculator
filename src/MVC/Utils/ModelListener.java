@@ -1,4 +1,4 @@
-package MVC;
+package MVC.Utils;
 
 import MVC.Model.EquationModel;
 

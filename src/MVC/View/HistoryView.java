@@ -1,4 +1,6 @@
-package MVC;
+package MVC.View;
+
+import MVC.Model.EquationModel;
 
 public class HistoryView extends View {
     @Override

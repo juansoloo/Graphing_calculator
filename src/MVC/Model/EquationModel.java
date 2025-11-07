@@ -1,4 +1,7 @@
-package MVC;
+package MVC.Model;
+
+import MVC.Utils.HistoryEntry;
+import MVC.Utils.ModelListener;
 
 import java.util.ArrayList;
 import java.util.List;
