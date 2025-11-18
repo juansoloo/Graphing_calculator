@@ -1,4 +1,9 @@
-package MVC.Parser;
+package Parser;
 
-public class EquationParser {
+public class Parser {
+    public Parser() {
+
+    }
+
+    
 }
