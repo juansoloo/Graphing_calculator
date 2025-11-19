@@ -1,12 +1,13 @@
 package CompositePattern;
 
 import Algebra.Polynomial;
+import Strategy.UnaryStrategy;
 
-public class UnaryOp implements Expression {
+public class UnaryOpNode implements Expression {
     private final Expression child;
-    private final UnaryOp op;
+    private final UnaryStrategy op;
 
-    public UnaryOp(Expression child, UnaryOp op) {
+    public UnaryOpNode(UnaryStrategy op, Expression child) {
         this.child = child;
         this.op = op;
     }

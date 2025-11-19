@@ -4,7 +4,7 @@ import MVC.Model.EquationModel;
 
 public class HistoryView extends View {
     @Override
-    public void update(EquationModel m) {
+    public void modelChanged(EquationModel m) {
         System.out.println("History size= " + m.getHistory().size());
     }
 

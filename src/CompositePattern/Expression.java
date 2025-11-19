@@ -1,5 +1,7 @@
-package MVC.CompositePattern;
+package CompositePattern;
+
+import Algebra.Polynomial;
 
 public interface Expression {
-
+    Polynomial evaluate();
 }

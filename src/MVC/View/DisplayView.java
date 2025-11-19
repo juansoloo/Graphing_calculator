@@ -1,10 +1,11 @@
 package MVC.View;
 
 import MVC.Model.EquationModel;
+import MVC.Utils.ModelListener;
 
 import javax.swing.*;
 
-public class DisplayView extends View {
+public class DisplayView extends View implements ModelListener {
     private JPanel root;
     private JTextField displayField;
 
@@ -13,11 +14,8 @@ public class DisplayView extends View {
     }
 
     @Override
-    public void update(EquationModel m) {
-        String text = (m.getResult() != null && !m.getResult().isEmpty())
-                ? m.getResult()
-                : (m.getExpression() == null ? "" : m.getExpression());
-        displayField.setText(text);
+    public void modelChanged(EquationModel m) {
+        displayField.setText(m.getDisplayText());
     }
 
     @Override

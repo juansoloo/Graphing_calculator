@@ -17,7 +17,6 @@ public class Main {
         CalculatorController controller = new CalculatorController(model);
 
         keypad.connect(controller);
-
         model.addListener(display);
 
         JFrame frame = new JFrame("Advanced Calculator");

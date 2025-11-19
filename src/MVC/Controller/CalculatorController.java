@@ -13,6 +13,7 @@ public class CalculatorController  {
         switch (token) {
             case "=" -> model.solve();
             case "C" -> model.clear();
+            case "DEL" -> model.deleteLast();
             default -> model.appendToken(token);
         }
     }

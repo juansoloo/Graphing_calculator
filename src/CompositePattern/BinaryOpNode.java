@@ -1,13 +1,14 @@
 package CompositePattern;
 
 import Algebra.Polynomial;
+import Strategy.BinaryStrategy;
 
-public class BinaryOp implements Expression{
+public class BinaryOpNode implements Expression{
     private final Expression left;
     private final Expression right;
     private final BinaryStrategy op; // the algorithm used to compute (add, sub, mult)
     
-    public BinaryOp(Expression left, Expression right, BinaryStrategy op) {
+    public BinaryOpNode(Expression left, Expression right, BinaryStrategy op) {
         this.left = left;
         this.right = right;
         this.op = op;

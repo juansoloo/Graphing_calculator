@@ -1,4 +1,5 @@
-package strategy;
+package Strategy;
 
-public class root {
+public class RootOp {
+
 }
