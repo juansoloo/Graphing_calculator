@@ -12,8 +12,8 @@ public class Lexer {
 
     /**
      * Token types used by the parser. Each enum value represents a
-     * distinct lexical unit which are integers, variables, operators,
-     * parentheses, or end-of-input.
+     * distinct lexical type which are integers, variables, operators,
+     * parentheses, or end-of-file.
      */
     public enum TOK {
         INT,
