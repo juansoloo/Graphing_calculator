@@ -1,7 +1,6 @@
 package MVC.Model;
 
 import Algebra.Polynomial;
-import MVC.Utils.HistoryEntry;
 import MVC.Utils.ModelListener;
 import Parser.EquationParser;
 import Strategy.*;
@@ -15,7 +14,6 @@ public class EquationModel {
     private String lastError = null;
 
     private final List<ModelListener> listeners = new ArrayList<>();
-    private final List<HistoryEntry> history = new ArrayList<>();
 
     private final BinaryStrategy addOp = new AddOp();
     private final BinaryStrategy subOp = new SubOp();
@@ -59,9 +57,9 @@ public class EquationModel {
 
             Polynomial p = parser.parse();
             lastResult = p;
-            String result = p.toString();
-
-            // history.add(new HistoryEntry(expression, result, System.currentTimeMillis()));
+//            String result = p.toString();
+//
+//            history.add(new HistoryEntry(expression, result, System.currentTimeMillis()));
 
             input.setLength(0);
             input.append(p.toString());
@@ -74,10 +72,6 @@ public class EquationModel {
 
     public void addListener(ModelListener l) {
         listeners.add(l);
-    }
-
-    public java.util.List<HistoryEntry> getHistory() {
-        return List.copyOf(history);
     }
 
     public String getDisplayText() {
@@ -136,6 +130,10 @@ public class EquationModel {
 
     public void showError(String msg) {
         lastError = msg;
+        notifyListeners();
+    }
+
+    public void graph() {
         notifyListeners();
     }
 

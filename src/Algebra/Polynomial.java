@@ -261,4 +261,18 @@ public class Polynomial {
     public int getC() {
         return get(0);
     }
+
+    /**
+     *
+     * @param x
+     * @return
+     */
+    public double evaluate(double x) {
+        double sum = 0.0;
+        for (int k = 0; k < term.size(); k++) {
+            int coeff = term.get(k);
+            sum += coeff * Math.pow(x, k);
+        }
+        return sum;
+    }
 }

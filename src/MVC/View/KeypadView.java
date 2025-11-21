@@ -73,6 +73,18 @@ public class KeypadView extends View {
         equalButton.setActionCommand("=");
     }
 
+    public void setGraphMode() {
+        // equation only controls hidden
+        xVariable.setVisible(true);
+        equalSign.setVisible(false);
+
+        // main = acts like normal equals
+        equalButton.setText("GRAPH");
+        equalButton.setActionCommand("=");
+    }
+
+    // public void setUnitMode() {}
+
     public void setEquationMode() {
         // show equation controls
         xVariable.setVisible(true);

@@ -1,4 +1,7 @@
 package Graphing;
 
-public class plotCharting {
+import javax.swing.*;
+
+public class PlotCharting extends JPanel {
+
 }
