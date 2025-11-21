@@ -122,13 +122,5 @@ public class Lexer {
             default -> throw new IllegalStateException("Unexpected value: " + c);
         };
     }
-
-//    public static void main(String[] args) {
-//        Lexer lex = new Lexer("(7x + 9) + 2x^2 + 2x + 9");
-//        Lexer.Token t;
-//        while ((t = lex.next()).tok != Lexer.TOK.EOF) {
-//            System.out.println(t);
-//        }
-//    }
  }
 

@@ -9,7 +9,5 @@ public class HistoryView extends View {
     }
 
     @Override
-    public void render() {
-        // UI list using Swing later
-    }
+    public void render() {}
 }

@@ -1,20 +1,48 @@
 package MVC.Controller;
 
 import MVC.Model.EquationModel;
+import MVC.View.KeypadView;
 
-public class CalculatorController  {
+public class CalculatorController {
     private final EquationModel model;
+    private final KeypadView keypad;
 
-    public CalculatorController(EquationModel model) {
+    private final CalculatorState basicState;
+    private final CalculatorState equationState;
+
+    private CalculatorState state;
+
+    public CalculatorController(EquationModel model, KeypadView keypad) {
         this.model = model;
+        this.keypad = keypad;
+
+        this.equationState = new EquationState();
+        this.basicState = new BasicState();
+
+        this.state = basicState;
+        keypad.setBasicMode();
     }
 
-    public void actionPerformed(String token) {
+    public void handleKey(String token) {
         switch (token) {
-            case "=" -> model.solve();
-            case "C" -> model.clear();
-            case "DEL" -> model.deleteLast();
-            default -> model.appendToken(token);
+            case "MODE_EQ" -> {
+                state = equationState;
+                keypad.setEquationMode();
+            }
+            case "MODE_BASIC" -> {
+                state = basicState;
+                keypad.setBasicMode();
+            }
+//            case "MODE_UNIT" -> {
+//                state = unitState;
+//                keypad.setUnitMode();
+//            }
+//            case "MODE_GRAPH" -> {
+//                state = graphState;
+//                keypad.setGraphMode();
+//            }
+            default -> state.handleKey(token, model);
         }
     }
 }
+

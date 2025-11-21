@@ -8,7 +8,7 @@ public class Polynomial {
     private final ArrayList<Integer> term = new ArrayList<>();
 
     /**
-     * Creates a constant polynomial p(x) = c
+     * Creates a constant polynomial px = c
      * @param c constant value
      * @return polynomial with degree 0
      */
@@ -19,7 +19,7 @@ public class Polynomial {
     }
 
     /**
-     * Creates the polynomial p(x) = x
+     * Creates the polynomial px = x
      * @return a degree-1 polynomial with coefficient 1 on x
      */
     public static Polynomial x() {
@@ -112,7 +112,7 @@ public class Polynomial {
     }
 
     /**
-     * Removes trailing zeros from the internal list
+     * Removes trailing zeros from the list
      * @return this polynomial after trimming
      */
     private Polynomial trim() {
@@ -133,8 +133,8 @@ public class Polynomial {
 
 
     /**
-     * Converts polynomial to human-readable string
-     * Example: "3x^2 - x + 5"
+     * Converts polynomial to human readable string
+     * Ex: "3x^2 - x + 5"
      * @return formatted polynomial string
      */
     @Override
@@ -221,29 +221,6 @@ public class Polynomial {
     }
 
     /**
-     * Checks structural equality of two polynomials
-     * Trailing zeros are ignored
-     * @param o object to compare
-     * @return true if coefficients match
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Polynomial other)) return false;
-
-        // compare after trimming trailing zeros
-        int d1 = this.degree();
-        int d2 = other.degree();
-
-        int max = Math.max(d1, d2);
-        for (int k = 0; k <= max; k++) {
-            if (this.get(k) != other.get(k)) return false;
-        }
-        return true;
-    }
-
-
-    /**
      * Multiplies the polynomial by a constant scalar
      * @param k scalar multiplier
      * @return scaled polynomial
@@ -259,5 +236,29 @@ public class Polynomial {
         }
 
         return r.trim();
+    }
+
+    /**
+     * Helper method to get a in ax^2 + bx + c
+     * @return coefficient of ax^2
+     */
+    public int getA() {
+        return get(2);
+    }
+
+    /**
+     * Helper method to get b in ax^2 + bx + c
+     * @return coefficient of bx
+     */
+    public int getB() {
+        return get(1);
+    }
+
+    /**
+     * Helper method to get c in ax^2 + bx + c
+     * @return coefficient of c
+     */
+    public int getC() {
+        return get(0);
     }
 }

@@ -69,7 +69,7 @@ public class EquationParser {
         String s = src.replaceAll("\\s+", "");
         int eq = s.indexOf('=');
 
-        // If the expression has '=', parse both sides separately
+        // If the expression has "=", parse both sides separately
         if (eq >= 0) {
             Polynomial L = parseSide(s.substring(0, eq));
             Polynomial R = parseSide(s.substring(eq + 1));

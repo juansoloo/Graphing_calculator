@@ -35,6 +35,9 @@ public class KeypadView extends View {
     private JButton delButton;
     private JButton LeftParen;
     private JButton RightParen;
+    private JButton xVariable;
+    private JButton equalSign;
+    private JButton basicButton;
 
     public JComponent getComponent() {
         return  root;
@@ -47,15 +50,39 @@ public class KeypadView extends View {
         m.put(addButton,"+"); m.put(minButton,"-"); m.put(multiButton,"*"); m.put(divButton,"/"); m.put(powButton,"^");
         m.put(equalButton,"="); m.put(cButton,"C"); m.put(delButton,"DEL"); m.put(plusNegButton,"-");
         m.put(equationButton,"MODE_EQ"); m.put(graphButton,"MODE_GRAPH"); m.put(unitConvButton,"MODE_UNIT");
-        m.put(LeftParen, "("); m.put(RightParen, ")");
+        m.put(LeftParen, "("); m.put(RightParen, ")"); m.put(xVariable, "x"); m.put(equalSign, "=");
+        m.put(basicButton, "MODE_BASIC");
 
-        ActionListener l = e -> controller.actionPerformed(((JButton)e.getSource()).getActionCommand());
+        ActionListener l = e -> controller.handleKey(((JButton)e.getSource()).getActionCommand());
 
         m.forEach((btn, tok) -> {
             btn.setActionCommand(tok);
             btn.addActionListener(l);
         });
+
+        setBasicMode();
     }
+
+    public void setBasicMode() {
+        // equation only controls hidden
+        xVariable.setVisible(false);
+        equalSign.setVisible(false);
+
+        // main = acts like normal equals
+        equalButton.setText("=");
+        equalButton.setActionCommand("=");
+    }
+
+    public void setEquationMode() {
+        // show equation controls
+        xVariable.setVisible(true);
+        equalSign.setVisible(true);
+
+        // main button becomes "Solve"
+        equalButton.setText("Solve");
+        equalButton.setActionCommand("SOLVE_EQ");
+    }
+
 
     @Override
     public void modelChanged(EquationModel m) {

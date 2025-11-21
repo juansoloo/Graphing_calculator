@@ -72,13 +72,8 @@ public class EquationModel {
         notifyListeners();
     }
 
-
     public void addListener(ModelListener l) {
         listeners.add(l);
-    }
-
-    public void removeListener(ModelListener l) {
-        listeners.remove(l);
     }
 
     public java.util.List<HistoryEntry> getHistory() {
@@ -101,25 +96,48 @@ public class EquationModel {
         return lastResult;
     }
 
-//    public void clearHistory() {
-//        history.clear();
-//        notifyListeners();
-//    }
+    // methods for equation solving -------------------
 
-//    public void recall(int index) {
-//        if (index >= 0 && index < history.size()) {
-//            this.expression = history.get(index).expression();
-//            notifyListeners();
-//        }
-//    }
+    public String getInput() {
+        return input.toString();
+    }
 
-//    private void addToHistory(String expr, String res) {
-//        history.add(new HistoryEntry(expr, res, System.currentTimeMillis()));
-//    }
-//    public void setExpression(String expr) {
-//        this.expression = expr;
-//        notifyListeners();
-//    }
+    public BinaryStrategy getAddOp() {
+        return addOp;
+    }
+
+    public BinaryStrategy getSubOp() {
+        return subOp;
+    }
+
+    public BinaryStrategy getMulOp() {
+        return mulOp;
+    }
+
+    public BinaryStrategy getDivOp() {
+        return divOp;
+    }
+
+    public UnaryStrategy  getNegOp() {
+        return negOp;
+    }
+
+    public PowStrategy    getPowOp() {
+        return powOp;
+    }
+
+
+    public void showSolution(String s) {
+        lastError = null;
+        input.setLength(0);
+        input.append(s);
+        notifyListeners();
+    }
+
+    public void showError(String msg) {
+        lastError = msg;
+        notifyListeners();
+    }
 
     public void notifyListeners() {
         for (ModelListener l : listeners) {

@@ -14,7 +14,7 @@ public class Main {
         DisplayView display = new DisplayView();
 //        HistoryView history = new HistoryView();
         KeypadView keypad = new KeypadView();
-        CalculatorController controller = new CalculatorController(model);
+        CalculatorController controller = new CalculatorController(model, keypad);
 
         keypad.connect(controller);
         model.addListener(display);
