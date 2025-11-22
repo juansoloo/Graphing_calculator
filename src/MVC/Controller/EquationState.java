@@ -19,7 +19,8 @@ public class EquationState implements CalculatorState {
                             model.getMulOp(),
                             model.getDivOp(),
                             model.getNegOp(),
-                            model.getPowOp()
+                            model.getPowOp(),
+                            model.getRootOp()
                     );
                     model.showSolution(sol);
                 } catch (Exception ex) {

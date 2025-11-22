@@ -3,8 +3,8 @@ package Parser;
 import Algebra.Polynomial;
 import Parser.Lexer.TOK;
 import Strategy.BinaryStrategy;
-import Strategy.UnaryStrategy;
 import Strategy.PowStrategy;
+import Strategy.UnaryStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,9 @@ public class EquationParser {
     private final BinaryStrategy subOp;
     private final BinaryStrategy mulOp;
     private final BinaryStrategy divOp;
-    private final UnaryStrategy  negOp;
-    private final PowStrategy    powOp;
+    private final UnaryStrategy negOp;
+    private final PowStrategy powOp;
+    private final UnaryStrategy rootOp;
 
     /**
      * Constructor for parser, parsers for an expression
@@ -50,7 +51,8 @@ public class EquationParser {
                           BinaryStrategy mulOp,
                           BinaryStrategy divOp,
                           UnaryStrategy negOp,
-                          PowStrategy powOp) {
+                          PowStrategy powOp,
+                          UnaryStrategy rootOp) {
         this.src   = source;
         this.addOp = addOp;
         this.subOp = subOp;
@@ -58,6 +60,43 @@ public class EquationParser {
         this.divOp = divOp;
         this.negOp = negOp;
         this.powOp = powOp;
+        this.rootOp = rootOp;
+    }
+
+    /**
+     * Returns the current look ahead token without consuming it
+     * @return the token at the current position p
+     */
+    private Lexer.Token peek() {
+        return toks.get(p);
+    }
+
+    /**
+     * Consumes and returns the current token, advancing the parser position
+     * @return the token at position p before incrementing
+     */
+    private Lexer.Token eat()  {
+        return toks.get(p++);
+    }
+
+    /**
+     * Checks whether the current token matches the given token type
+     * @param t the token type to compare against
+     * @return true if the current token has type t
+     */
+    private boolean at(TOK t)  {
+        // Compare the look ahead token's type with the expected type
+        return peek().tok == t;
+    }
+
+    /**
+     * Ensures that the current token matches the expected type. If not,
+     * an error is thrown with the provided message and the unexpected token.
+     * @param t the required token type
+     * @param msg the error message to emit if the check fails
+     */
+    private void need(TOK t, String msg) {
+        if (!at(t)) throw new IllegalArgumentException(msg + " (found " + peek() + ")");
     }
 
     /**
@@ -147,13 +186,13 @@ public class EquationParser {
                 Polynomial rhs = parseFactor();
                 acc = mulOp.apply(acc, rhs);
 
-            // Explicit division "/"
+                // Explicit division "/"
             } else if (at(TOK.DIV)) {
                 eat();
                 Polynomial rhs = parseFactor();
                 acc = divOp.apply(acc, rhs);
 
-            // Implicit multiplication (ie 2x, x(x+1), etc.)
+                // Implicit multiplication (ie 2x, x(x+1), etc.)
             } else if (startsImplicitMult()) {
                 Polynomial rhs = parseFactor();
                 acc = mulOp.apply(acc, rhs);
@@ -245,41 +284,5 @@ public class EquationParser {
         // Implicit multiplication is allowed when the next token
         // starts a primary expression: INT, X, or '('
         return t == TOK.INT || t == TOK.X || t == TOK.LEFT_PAREN;
-    }
-
-    /**
-     * Returns the current look ahead token without consuming it
-     * @return the token at the current position p
-     */
-    private Lexer.Token peek() {
-        return toks.get(p);
-    }
-
-    /**
-     * Consumes and returns the current token, advancing the parser position
-     * @return the token at position p before incrementing
-     */
-    private Lexer.Token eat()  {
-        return toks.get(p++);
-    }
-
-    /**
-     * Checks whether the current token matches the given token type
-     * @param t the token type to compare against
-     * @return true if the current token has type t
-     */
-    private boolean at(TOK t)  {
-        // Compare the look ahead token's type with the expected type
-        return peek().tok == t;
-    }
-
-    /**
-     * Ensures that the current token matches the expected type. If not,
-     * an error is thrown with the provided message and the unexpected token.
-     * @param t the required token type
-     * @param msg the error message to emit if the check fails
-     */
-    private void need(TOK t, String msg) {
-        if (!at(t)) throw new IllegalArgumentException(msg + " (found " + peek() + ")");
     }
 }

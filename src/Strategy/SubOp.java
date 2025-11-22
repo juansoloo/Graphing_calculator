@@ -11,7 +11,6 @@ public class SubOp implements BinaryStrategy {
      * Applies subtraction by using polynomial addition and multiplication.
      * The expression a - b is calculated as a + (b * -1), using the methods
      * add() and mulConst() defined in Polynomial.
-     *
      * @param a left polynomial operand
      * @param b right polynomial operand
      * @return the result of a - b as a Polynomial

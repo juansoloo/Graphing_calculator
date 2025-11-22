@@ -107,14 +107,12 @@ public class Lexer {
 
         // switch statement to return Token type depending on character
         return switch (c) {
-            case 'x','X' -> new Token(TOK.X);
+            case 'x' -> new Token(TOK.X);
             case '+' -> new Token(TOK.PLUS);
             case '-' -> new Token(TOK.MINUS);
             case '*' -> new Token(TOK.MUL);
             case '/' -> new Token(TOK.DIV);
             case '^' -> new Token(TOK.POWER);
-
-            // maybe not do sqrts or implement logic to do by itself no other terms
             case 'R' -> new Token(TOK.ROOT);
             case '(' -> new Token(TOK.LEFT_PAREN);
             case ')' -> new Token(TOK.RIGHT_PAREN);

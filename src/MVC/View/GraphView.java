@@ -55,7 +55,8 @@ public class GraphView extends View{
                     model.getMulOp(),
                     model.getDivOp(),
                     model.getNegOp(),
-                    model.getPowOp()
+                    model.getPowOp(),
+                    model.getRootOp()
             );
             p = parser.parse();
         } catch (Exception e) {

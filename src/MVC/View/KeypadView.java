@@ -38,6 +38,7 @@ public class KeypadView extends View {
     private JButton xVariable;
     private JButton equalSign;
     private JButton basicButton;
+    private JButton sqrtButton;
 
     public JComponent getComponent() {
         return  root;
@@ -45,12 +46,37 @@ public class KeypadView extends View {
 
     public void connect(CalculatorController controller) {
         Map<JButton,String> m = new LinkedHashMap<>();
-        m.put(a0Button,"0"); m.put(a1Button,"1"); m.put(a2Button,"2"); m.put(a3Button,"3"); m.put(a4Button,"4");
-        m.put(a5Button,"5"); m.put(a6Button,"6"); m.put(a7Button,"7"); m.put(a8Button,"8"); m.put(a9Button,"9");
-        m.put(addButton,"+"); m.put(minButton,"-"); m.put(multiButton,"*"); m.put(divButton,"/"); m.put(powButton,"^");
-        m.put(equalButton,"="); m.put(cButton,"C"); m.put(delButton,"DEL"); m.put(plusNegButton,"-");
-        m.put(equationButton,"MODE_EQ"); m.put(graphButton,"MODE_GRAPH"); m.put(unitConvButton,"MODE_UNIT");
-        m.put(LeftParen, "("); m.put(RightParen, ")"); m.put(xVariable, "x"); m.put(equalSign, "=");
+        m.put(a0Button,"0");
+        m.put(a1Button,"1");
+        m.put(a2Button,"2");
+        m.put(a3Button,"3");
+        m.put(a4Button,"4");
+        m.put(a5Button,"5");
+        m.put(a6Button,"6");
+        m.put(a7Button,"7");
+        m.put(a8Button,"8");
+        m.put(a9Button,"9");
+
+        m.put(addButton,"+");
+        m.put(minButton,"-");
+        m.put(multiButton,"*");
+        m.put(divButton,"/");
+        m.put(powButton,"^");
+        m.put(sqrtButton, "R");
+
+        m.put(equalButton,"="); // solve button
+        m.put(cButton,"C");
+        m.put(delButton,"DEL");
+
+        m.put(LeftParen, "(");
+        m.put(RightParen, ")");
+        m.put(plusNegButton,"-");
+        m.put(xVariable, "x");
+        m.put(equalSign, "="); // symbolic = for equations
+
+        m.put(unitConvButton,"MODE_UNIT");
+        m.put(graphButton,"MODE_GRAPH");
+        m.put(equationButton,"MODE_EQ");
         m.put(basicButton, "MODE_BASIC");
 
         ActionListener l = e -> controller.handleKey(((JButton)e.getSource()).getActionCommand());

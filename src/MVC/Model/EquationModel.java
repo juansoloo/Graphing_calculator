@@ -21,6 +21,7 @@ public class EquationModel {
     private final BinaryStrategy divOp = new DivOp();
     private final UnaryStrategy negOp = new NegOp();
     private final PowStrategy powOp = new PowOp();
+    private final UnaryStrategy rootOp = new RootOp();
 
     public void appendToken(String token) {
         lastError = null;
@@ -53,13 +54,10 @@ public class EquationModel {
             }
 
             EquationParser parser =
-                    new EquationParser(expr, addOp, subOp, mulOp, divOp, negOp, powOp);
+                    new EquationParser(expr, addOp, subOp, mulOp, divOp, negOp, powOp, rootOp);
 
             Polynomial p = parser.parse();
             lastResult = p;
-//            String result = p.toString();
-//
-//            history.add(new HistoryEntry(expression, result, System.currentTimeMillis()));
 
             input.setLength(0);
             input.append(p.toString());
@@ -90,7 +88,7 @@ public class EquationModel {
         return lastResult;
     }
 
-    // methods for equation solving -------------------
+    // calls methods for equation solving -------------------
 
     public String getInput() {
         return input.toString();
@@ -112,15 +110,17 @@ public class EquationModel {
         return divOp;
     }
 
-    public UnaryStrategy  getNegOp() {
+    public UnaryStrategy getNegOp() {
         return negOp;
     }
 
-    public PowStrategy    getPowOp() {
+    public PowStrategy getPowOp() {
         return powOp;
     }
 
-
+    public UnaryStrategy getRootOp() {
+        return rootOp;
+    }
     public void showSolution(String s) {
         lastError = null;
         input.setLength(0);
