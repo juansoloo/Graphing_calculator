@@ -212,7 +212,7 @@ public class EquationParser {
         // Tracks whether the factor is negated; multiple "-" flip the sign
         boolean neg = false;
 
-        // Consume all unary minus tokens (e.g., --x, ---5)
+        // Consume all unary minus tokens
         while (at(TOK.MINUS)) {
             // flip sign for each minus
             neg = !neg;
@@ -220,7 +220,16 @@ public class EquationParser {
         }
 
         // Parse the underlying primary expression (number, variable, or parenthesized expression)
-        Polynomial base = parsePrimary();
+        Polynomial base;
+
+        // handle unary root
+        if (at(TOK.ROOT)) {
+            eat();
+            Polynomial inner = parsePrimary();
+            base = rootOp.apply(inner);
+        } else {
+            base = parsePrimary();
+        }
 
         // Handle optional exponentiation: base "^" integer
         if (at(TOK.POWER)) {
