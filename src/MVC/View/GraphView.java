@@ -10,13 +10,24 @@ import org.knowm.xchart.XYChartBuilder;
 import javax.swing.*;
 import java.awt.*;
 
-public class GraphView extends View{
+/**
+ * GraphView is the actual display that plots the input
+ * expression on a XYChart using the XChart library. Listens
+ * to the EquationModel and renders when ever the model changes
+ */
+public class GraphView extends View {
+    // root panel for chart
     private JPanel rootGraph;
     private EquationModel model;
 
+    // XChart objects
     private final XYChart chart;
     private final XChartPanel<XYChart> chartPanel;
 
+    /**
+     *  Constructor for graph view, creates the XYChart and embeds
+     *  in rootGraph.
+      */
     public GraphView() {
         this.chart = new XYChartBuilder()
                 .width(600).height(400)
@@ -26,17 +37,25 @@ public class GraphView extends View{
                 .build();
         this.chartPanel = new XChartPanel<>(chart);
 
+        // Places chart panel inside rootGraph
         rootGraph.setLayout(new BorderLayout());
         rootGraph.add(chartPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Called by the model whenever the state changes, updates the
+     * model and renders the graph based on the input expression.
+     * @param m EquationModel
+     */
     @Override
     public void modelChanged(EquationModel m) {
         this.model = m;
         render();
     }
 
-    @Override
+    /**
+     *
+     */
     public void render() {
         if (model == null) return;
 

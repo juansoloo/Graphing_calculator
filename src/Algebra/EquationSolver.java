@@ -10,7 +10,7 @@ import Strategy.PowStrategy;
  * parsing to a Polynomial Px = fx - gx and then
  * applying linear / quadratic formulas.
  */
-public final class EquationSolver {
+public class EquationSolver {
     /**
      * Private constructor for EquationSolver
      */

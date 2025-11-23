@@ -5,47 +5,74 @@ import MVC.Model.EquationModel;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * KeypadView is the actual calculator keypad, each
+ * JButton corresponds to a token that the controller will
+ * use. (digits, operators, modes, parentheses, etc.)
+ */
 public class KeypadView extends View {
     private JPanel root;
 
-    private JButton unitConvButton;
-    private JButton a7Button;
-    private JButton a4Button;
+    // digits
     private JButton a1Button;
-    private JButton plusNegButton;
-    private JButton graphButton;
-    private JButton a5Button;
-    private JButton a8Button;
     private JButton a2Button;
-    private JButton a0Button;
-    private JButton equationButton;
-    private JButton a9Button;
-    private JButton a6Button;
     private JButton a3Button;
+    private JButton a4Button;
+    private JButton a5Button;
+    private JButton a6Button;
+    private JButton a7Button;
+    private JButton a8Button;
+    private JButton a9Button;
+    private JButton a0Button;
+
+    // operators
+    private JButton plusNegButton;
     private JButton powButton;
     private JButton divButton;
     private JButton minButton;
     private JButton multiButton;
+    private JButton sqrtButton;
     private JButton addButton;
-    private JButton equalButton;
-    private JButton cButton;
-    private JButton delButton;
+
+    // parentheses, variable x, symbolic "="
     private JButton LeftParen;
     private JButton RightParen;
     private JButton xVariable;
     private JButton equalSign;
-    private JButton basicButton;
-    private JButton sqrtButton;
 
+    // functionality buttons, clear, delete, = or solve
+    private JButton cButton;
+    private JButton delButton;
+    private JButton equalButton;
+
+    // modes
+    private JButton unitConvButton;
+    private JButton graphButton;
+    private JButton equationButton;
+    private JButton basicButton;
+
+    /**
+     * Returns the root swing component embed in the JFrame layout
+     * @return JComponent root
+     */
     public JComponent getComponent() {
         return  root;
     }
 
+    /**
+     * Connects all buttons to the controller and assigns them an
+     * ActionCommand token. When the button is pressed, the controller
+     * will gets the mapped string.
+     * @param controller CalculatorController handles user input
+     */
     public void connect(CalculatorController controller) {
-        Map<JButton,String> m = new LinkedHashMap<>();
+        // initiates Map that will map button to string
+        Map<JButton,String> m = new HashMap<>();
+
+        // digits
         m.put(a0Button,"0");
         m.put(a1Button,"1");
         m.put(a2Button,"2");
@@ -57,78 +84,91 @@ public class KeypadView extends View {
         m.put(a8Button,"8");
         m.put(a9Button,"9");
 
+        // operators
         m.put(addButton,"+");
         m.put(minButton,"-");
         m.put(multiButton,"*");
         m.put(divButton,"/");
         m.put(powButton,"^");
-        m.put(sqrtButton, "R");
+        m.put(sqrtButton, "√");
+        m.put(plusNegButton,"-");
 
-        m.put(equalButton,"="); // solve button
+        // functionality clear, delete, solve or "="
         m.put(cButton,"C");
         m.put(delButton,"DEL");
+        m.put(equalButton,"=");
 
+        // parentheses and variable x
         m.put(LeftParen, "(");
         m.put(RightParen, ")");
-        m.put(plusNegButton,"-");
         m.put(xVariable, "x");
-        m.put(equalSign, "="); // symbolic = for equations
 
+
+        // symbolic "=" for equationMode
+        m.put(equalSign, "=");
+
+        // modes
         m.put(unitConvButton,"MODE_UNIT");
         m.put(graphButton,"MODE_GRAPH");
         m.put(equationButton,"MODE_EQ");
         m.put(basicButton, "MODE_BASIC");
 
+        // Creates listener allows controller to listen to buttons
         ActionListener l = e -> controller.handleKey(((JButton)e.getSource()).getActionCommand());
 
+        // maps action command to button
         m.forEach((btn, tok) -> {
             btn.setActionCommand(tok);
             btn.addActionListener(l);
         });
 
+        // default keypad mode
         setBasicMode();
     }
 
+    /**
+     * Sets the keypad for BASIC calculator mode, hides
+     * symbolic buttons (ie x and symbolic "=")
+     */
     public void setBasicMode() {
-        // equation only controls hidden
+        // hies x and symbolic "="
         xVariable.setVisible(false);
         equalSign.setVisible(false);
 
-        // main = acts like normal equals
+        // equal buttons solves
         equalButton.setText("=");
         equalButton.setActionCommand("=");
     }
 
+    /**
+     * Sets the keypad for GRAPHING mode, makes x visible
+     * and symbolic "=" not visible.
+     */
     public void setGraphMode() {
-        // equation only controls hidden
         xVariable.setVisible(true);
         equalSign.setVisible(false);
 
-        // main = acts like normal equals
         equalButton.setText("GRAPH");
         equalButton.setActionCommand("=");
     }
 
     // public void setUnitMode() {}
 
+    /**
+     * Sets keypad for EQUATION mode. Enables x and symbolic "="
+     * so users can input quadratics
+     */
     public void setEquationMode() {
-        // show equation controls
         xVariable.setVisible(true);
         equalSign.setVisible(true);
 
-        // main button becomes "Solve"
         equalButton.setText("Solve");
         equalButton.setActionCommand("SOLVE_EQ");
     }
 
-
+    /**
+     * Model notifies KeypadView of changes
+     */
     @Override
-    public void modelChanged(EquationModel m) {
-        // refresh keypad state if needed
-    }
-
-    @Override
-    public void render() {
-        // draw UI using Swing later
-    }
+    public void modelChanged(EquationModel m) {}
 }

@@ -17,9 +17,4 @@ public class DisplayView extends View implements ModelListener {
     public void modelChanged(EquationModel m) {
         displayField.setText(m.getDisplayText());
     }
-
-    @Override
-    public void render() {
-        // might need
-    }
 }

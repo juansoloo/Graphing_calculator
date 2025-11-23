@@ -292,19 +292,19 @@ public class Polynomial {
      */
     @Override
     public String toString() {
-        int d = degree();
-        if (d < 0) return "0";
+        int deg = degree();
+        if (deg < 0) return "0";
 
         StringBuilder sb = new StringBuilder();
 
-        // loops through highest degree down to 0, ensuring expression in print in std form
-        for (int k = d; k >= 0; k--) {
+        // loops through highest degree down to 0, ensuring expression is print in std form
+        for (int k = deg; k >= 0; k--) {
 
             // coefficient
-            int c = get(k);
+            int coeff = get(k);
 
             // skips and continues to next term if degree is 0
-            if (c == 0) continue;
+            if (coeff == 0) continue;
 
             boolean firstTerm;
 
@@ -316,13 +316,13 @@ public class Polynomial {
             }
 
             // absolut value of coefficient
-            int abs = Math.abs(c);
+            int abs = Math.abs(coeff);
 
             // adds correct sign to string
             if (firstTerm) {
-                if (c < 0) sb.append("-");
+                if (coeff < 0) sb.append("-");
             } else {
-                sb.append(c < 0 ? " - " : " + ");
+                sb.append(coeff < 0 ? " - " : " + ");
             }
 
             // builds the term depending on the power of x

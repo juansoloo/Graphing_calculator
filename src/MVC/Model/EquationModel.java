@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EquationModel {
-    private final StringBuilder input = new StringBuilder();   // what user is typing
-    private Polynomial lastResult = Polynomial.zero();         // last computed result
+    // what user is typing
+    private final StringBuilder input = new StringBuilder();
+    // last computed result
+    private Polynomial lastResult = Polynomial.zero();
     private String lastError = null;
+
 
     private final List<ModelListener> listeners = new ArrayList<>();
 

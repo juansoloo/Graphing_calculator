@@ -85,14 +85,14 @@ public class Lexer {
             return new Token(TOK.EOF);
         }
 
-        // current character at index i
+        // current char at index i
         char c = str.charAt(i);
 
         // checks if c is a digit
         if (Character.isDigit(c)) {
             // uses j as an index variable to scan ahead in the string
             int j;
-            // for-loop has no body, it advances j until it reaches the first non-digit character
+            // for-loop has no body, it advances j until it reaches the first non-digit char
             for (j=i; j < str.length() && Character.isDigit(str.charAt(j)); j++);
             // parses digits from index i to j, casts as integer
             int value = Integer.parseInt(str.substring(i, j));
@@ -105,7 +105,7 @@ public class Lexer {
         // increments index i
         i++;
 
-        // switch statement to return Token type depending on character
+        // switch statement to return Token type depending on char
         return switch (c) {
             case 'x' -> new Token(TOK.X);
             case '+' -> new Token(TOK.PLUS);
@@ -113,7 +113,7 @@ public class Lexer {
             case '*' -> new Token(TOK.MUL);
             case '/' -> new Token(TOK.DIV);
             case '^' -> new Token(TOK.POWER);
-            case 'R' -> new Token(TOK.ROOT);
+            case '√' -> new Token(TOK.ROOT);
             case '(' -> new Token(TOK.LEFT_PAREN);
             case ')' -> new Token(TOK.RIGHT_PAREN);
 
