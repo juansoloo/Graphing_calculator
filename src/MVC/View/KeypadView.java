@@ -147,6 +147,7 @@ public class KeypadView extends View {
     public void setGraphMode() {
         xVariable.setVisible(true);
         equalSign.setVisible(false);
+        sqrtButton.setVisible(false);
 
         equalButton.setText("GRAPH");
         equalButton.setActionCommand("=");
@@ -161,6 +162,7 @@ public class KeypadView extends View {
     public void setEquationMode() {
         xVariable.setVisible(true);
         equalSign.setVisible(true);
+        sqrtButton.setVisible(false);
 
         equalButton.setText("Solve");
         equalButton.setActionCommand("SOLVE_EQ");

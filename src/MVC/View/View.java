@@ -1,7 +1,7 @@
 package MVC.View;
 
 import MVC.Model.EquationModel;
-import MVC.Utils.ModelListener;
+import MVC.Observer.ModelListener;
 
 public abstract class View implements ModelListener {
     @Override

@@ -2,7 +2,6 @@ package MVC.View;
 
 import Algebra.Polynomial;
 import MVC.Model.EquationModel;
-import Parser.EquationParser;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
@@ -54,60 +53,56 @@ public class GraphView extends View {
     }
 
     /**
-     *
+     * Renders the graph using the current Polynomial stored in the model,
      */
     public void render() {
-        if (model == null) return;
+        Polynomial p = model.getGraph();
 
-        String expr = model.getInput();
-        if (expr == null || expr.isBlank()) {
-            return; // nothing to graph
-        }
-
-        Polynomial p;
-        try {
-            // Use the same strategies as the model
-            EquationParser parser = new EquationParser(
-                    expr,
-                    model.getAddOp(),
-                    model.getSubOp(),
-                    model.getMulOp(),
-                    model.getDivOp(),
-                    model.getNegOp(),
-                    model.getPowOp(),
-                    model.getRootOp()
-            );
-            p = parser.parse();
-        } catch (Exception e) {
-            // You could also show an error somewhere; for graph view, just skip
+        if (p == null) {
             return;
         }
 
         graph(p, -10, 10, 400);
     }
 
+    /**
+     * Samples the polynomial p over the intervals xMin and xMax. Updates
+     * XChart with the computed points.
+     * @param p Polynomial to plot
+     * @param xMin left boundary of x-axis
+     * @param xMax right boundary of y-axis
+     * @param samples the number of x values to sample
+     */
     public void graph(Polynomial p, double xMin, double xMax, int samples) {
         double[] xData = new double[samples];
         double[] yData = new double[samples];
 
+        // distance between x sample points
         double step = (xMax - xMin) / (samples - 1);
 
+        // loops over samples, and computes x and fx
         for (int i = 0; i < samples; i++) {
             double x = xMin + i * step;
             xData[i] = x;
             yData[i] = p.evaluate(x);
         }
 
+        // updates chart or creates it
         if (chart.getSeriesMap().containsKey("f(x)")) {
             chart.updateXYSeries("f(x)", xData, yData,null);
         } else {
             chart.addSeries("f(x)", xData, yData);
         }
 
+        // paints swing component
         chartPanel.revalidate();
         chartPanel.repaint();
     }
 
+    /**
+     * Returns the root swing component that displays the graph
+     * @return rootGraph
+     */
     public JPanel getRoot() {
         return rootGraph;
     }
