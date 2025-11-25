@@ -16,6 +16,8 @@ import java.util.Map;
 public class KeypadView extends View {
     private JPanel root;
 
+    private GraphView graphView;
+
     // digits
     private JButton a1Button;
     private JButton a2Button;
@@ -131,9 +133,21 @@ public class KeypadView extends View {
      * symbolic buttons (ie x and symbolic "=")
      */
     public void setBasicMode() {
-        // hies x and symbolic "="
+        // hides x and symbolic "="
         xVariable.setVisible(false);
         equalSign.setVisible(false);
+
+//        sqrtButton.setVisible(true);
+//        LeftParen.setVisible(true);
+//        RightParen.setVisible(true);
+//        addButton.setVisible(true);
+//        minButton.setVisible(true);
+//        multiButton.setVisible(true);
+//        divButton.setVisible(true);
+//        powButton.setVisible(true);
+//        sqrtButton.setVisible(true);
+//        plusNegButton.setVisible(true);
+
 
         // equal buttons solves
         equalButton.setText("=");
@@ -148,12 +162,27 @@ public class KeypadView extends View {
         xVariable.setVisible(true);
         equalSign.setVisible(false);
         sqrtButton.setVisible(false);
+//        graphView.getRootGraph().setVisible(true);
+
 
         equalButton.setText("GRAPH");
         equalButton.setActionCommand("=");
     }
 
-    // public void setUnitMode() {}
+    public void setUnitMode() {
+//        xVariable.setVisible(false);
+//        equalSign.setVisible(false);
+//        sqrtButton.setVisible(false);
+//        LeftParen.setVisible(false);
+//        RightParen.setVisible(false);
+//        addButton.setVisible(false);
+//        minButton.setVisible(false);
+//        multiButton.setVisible(false);
+//        divButton.setVisible(false);
+//        powButton.setVisible(false);
+//        sqrtButton.setVisible(false);
+//        plusNegButton.setVisible(false);
+    }
 
     /**
      * Sets keypad for EQUATION mode. Enables x and symbolic "="

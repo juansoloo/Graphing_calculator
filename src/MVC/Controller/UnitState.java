@@ -1,4 +1,20 @@
 package MVC.Controller;
 
-public class UnitState {
+import MVC.Model.EquationModel;
+
+public class UnitState implements CalculatorState {
+    @Override
+    public void handleKey(String token, EquationModel model) {
+        switch (token) {
+            case "="   -> model.solve(); //convert()
+            case "C"   -> model.clear();
+            case "DEL" -> model.deleteLast();
+            default    -> model.appendToken(token);
+        }
+    }
+
+    @Override
+    public String getName() {
+        return "UNIT";
+    }
 }

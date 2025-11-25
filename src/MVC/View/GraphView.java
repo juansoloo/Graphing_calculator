@@ -103,7 +103,7 @@ public class GraphView extends View {
      * Returns the root swing component that displays the graph
      * @return rootGraph
      */
-    public JPanel getRoot() {
+    public JPanel getRootGraph() {
         return rootGraph;
     }
 }

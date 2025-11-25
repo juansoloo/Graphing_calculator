@@ -5,6 +5,8 @@ import MVC.Model.EquationModel;
 import javax.swing.*;
 
 public class UnitView extends View {
+    private JPanel rootUnit;
+
     private JComboBox unitCombo;
     private JTextField imperialDisplay;
     private JTextField metricDisplay;
@@ -13,8 +15,14 @@ public class UnitView extends View {
     private JButton unitChangeButton;
     private JLabel equalText;
 
-    @Override
-    public void modelChanged(EquationModel m) {
+    public UnitView() {
 
     }
+
+    public JPanel getRootUnit() {
+        return rootUnit;
+    }
+
+    @Override
+    public void modelChanged(EquationModel m) {}
 }
