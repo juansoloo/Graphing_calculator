@@ -2,9 +2,9 @@ package Parser;
 
 import Algebra.Polynomial;
 import Parser.Lexer.TOK;
-import Strategy.BinaryStrategy;
-import Strategy.PowStrategy;
-import Strategy.UnaryStrategy;
+import OperationsBundle.BinaryStrategy;
+import OperationsBundle.PowStrategy;
+import OperationsBundle.UnaryStrategy;
 
 import java.util.ArrayList;
 import java.util.List;

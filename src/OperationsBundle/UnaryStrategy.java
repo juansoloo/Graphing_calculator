@@ -1,4 +1,4 @@
-package Strategy;
+package OperationsBundle;
 
 import Algebra.Polynomial;
 

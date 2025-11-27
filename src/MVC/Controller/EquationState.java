@@ -32,8 +32,7 @@ public class EquationState implements CalculatorState {
 
                     // solves for x using model strategy operators
                     String sol = EquationSolver.solveForX(
-                            expr,
-                            model.getAddOp(),
+                            expr, model.getAddOp(),
                             model.getSubOp(),
                             model.getMulOp(),
                             model.getDivOp(),
@@ -48,9 +47,9 @@ public class EquationState implements CalculatorState {
                     model.showError(ex.getMessage());
                 }
             }
-            case "C"   -> model.clear();
+            case "C" -> model.clear();
             case "DEL" -> model.deleteLast();
-            default    -> model.appendToken(token);
+            default -> model.appendToken(token);
         }
     }
 

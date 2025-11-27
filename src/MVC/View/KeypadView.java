@@ -105,7 +105,6 @@ public class KeypadView extends View {
         m.put(RightParen, ")");
         m.put(xVariable, "x");
 
-
         // symbolic "=" for equationMode
         m.put(equalSign, "=");
 
@@ -137,16 +136,16 @@ public class KeypadView extends View {
         xVariable.setVisible(false);
         equalSign.setVisible(false);
 
-//        sqrtButton.setVisible(true);
-//        LeftParen.setVisible(true);
-//        RightParen.setVisible(true);
-//        addButton.setVisible(true);
-//        minButton.setVisible(true);
-//        multiButton.setVisible(true);
-//        divButton.setVisible(true);
-//        powButton.setVisible(true);
-//        sqrtButton.setVisible(true);
-//        plusNegButton.setVisible(true);
+        sqrtButton.setVisible(true);
+        LeftParen.setVisible(true);
+        RightParen.setVisible(true);
+        addButton.setVisible(true);
+        minButton.setVisible(true);
+        multiButton.setVisible(true);
+        divButton.setVisible(true);
+        powButton.setVisible(true);
+        sqrtButton.setVisible(true);
+        plusNegButton.setVisible(true);
 
 
         // equal buttons solves
@@ -161,27 +160,34 @@ public class KeypadView extends View {
     public void setGraphMode() {
         xVariable.setVisible(true);
         equalSign.setVisible(false);
-        sqrtButton.setVisible(false);
-//        graphView.getRootGraph().setVisible(true);
 
+        sqrtButton.setVisible(false);
+        LeftParen.setVisible(true);
+        RightParen.setVisible(true);
+        addButton.setVisible(true);
+        minButton.setVisible(true);
+        multiButton.setVisible(true);
+        divButton.setVisible(true);
+        powButton.setVisible(true);
+        plusNegButton.setVisible(true);
 
         equalButton.setText("GRAPH");
         equalButton.setActionCommand("=");
     }
 
     public void setUnitMode() {
-//        xVariable.setVisible(false);
-//        equalSign.setVisible(false);
-//        sqrtButton.setVisible(false);
-//        LeftParen.setVisible(false);
-//        RightParen.setVisible(false);
-//        addButton.setVisible(false);
-//        minButton.setVisible(false);
-//        multiButton.setVisible(false);
-//        divButton.setVisible(false);
-//        powButton.setVisible(false);
-//        sqrtButton.setVisible(false);
-//        plusNegButton.setVisible(false);
+        xVariable.setVisible(false);
+        equalSign.setVisible(false);
+
+        sqrtButton.setVisible(false);
+        LeftParen.setVisible(false);
+        RightParen.setVisible(false);
+        addButton.setVisible(false);
+        minButton.setVisible(false);
+        multiButton.setVisible(false);
+        divButton.setVisible(false);
+        powButton.setVisible(false);
+        plusNegButton.setVisible(false);
     }
 
     /**
@@ -191,7 +197,16 @@ public class KeypadView extends View {
     public void setEquationMode() {
         xVariable.setVisible(true);
         equalSign.setVisible(true);
+
         sqrtButton.setVisible(false);
+        LeftParen.setVisible(true);
+        RightParen.setVisible(true);
+        addButton.setVisible(true);
+        minButton.setVisible(true);
+        multiButton.setVisible(true);
+        divButton.setVisible(true);
+        powButton.setVisible(true);
+        plusNegButton.setVisible(true);
 
         equalButton.setText("Solve");
         equalButton.setActionCommand("SOLVE_EQ");

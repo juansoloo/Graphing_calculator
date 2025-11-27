@@ -1,9 +1,9 @@
 package Algebra;
 
 import Parser.EquationParser;
-import Strategy.BinaryStrategy;
-import Strategy.UnaryStrategy;
-import Strategy.PowStrategy;
+import OperationsBundle.BinaryStrategy;
+import OperationsBundle.UnaryStrategy;
+import OperationsBundle.PowStrategy;
 
 /**
  * Solves equations of the form fx = gx for x by

@@ -2,8 +2,8 @@ package MVC.Model;
 
 import Algebra.Polynomial;
 import MVC.Observer.ModelListener;
+import OperationsBundle.*;
 import Parser.EquationParser;
-import Strategy.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +17,22 @@ import java.util.List;
 public class EquationModel {
     // current expression user is typing
     private final StringBuilder input = new StringBuilder();
+
+    // string builder for imperial and metric units in UNIT mode
+    private final StringBuilder imperialInput = new StringBuilder();
+    private final StringBuilder metricInput = new StringBuilder();
+    private TypeState activeTypeState = TypeState.LENGTH;
+
+    // sets the current state of UnitView to IMPERIAL;
+    private UnitState activeUnitState = UnitState.IMPERIAL;
+
     // Last computed polynomial result
     private Polynomial lastResult = Polynomial.zero();
+
     // last error message
     private String lastError = null;
 
-    // Array of all observers (DisplayView, GraphView, KeypadView)
+    // Array of all observers (DisplayView, GraphView, KeypadView, UnitView)
     private final List<ModelListener> listeners = new ArrayList<>();
 
     // Operator Strategies used by the parser
@@ -54,7 +64,7 @@ public class EquationModel {
         input.setLength(0);
         lastError = null;
 
-        lastResult = Polynomial.constant(0);
+        lastResult = Polynomial.zero();
 
         notifyListeners();
     }
@@ -83,7 +93,8 @@ public class EquationModel {
             }
 
             EquationParser parser =
-                    new EquationParser(expr, addOp, subOp, mulOp, divOp, negOp, powOp, rootOp);
+                    new EquationParser(
+                            expr, addOp, subOp, mulOp, divOp, negOp, powOp, rootOp);
 
             Polynomial p = parser.parse();
             lastResult = p;
@@ -238,6 +249,91 @@ public class EquationModel {
     public Polynomial getGraph() {
         return graphPoly;
     }
+
+    //------------------------------------------------------------
+
+    public enum UnitState {
+        IMPERIAL,
+        METRIC
+    }
+
+    public enum TypeState {
+        LENGTH,
+        TEMPERATURE
+    }
+
+    public UnitState getUnitState() {
+        return activeUnitState;
+    }
+
+    public TypeState getTypeState() {
+        return activeTypeState;
+    }
+
+    public void changeUnitState() {
+        activeUnitState = (activeUnitState == UnitState.IMPERIAL)
+                ? UnitState.METRIC
+                : UnitState.IMPERIAL;
+        notifyListeners();
+    }
+
+    public void changeTypeState() {
+        EquationModel.TypeState current = getTypeState();
+        if (current == EquationModel.TypeState.LENGTH) {
+            setTypeState(EquationModel.TypeState.TEMPERATURE);
+        } else {
+            setTypeState(EquationModel.TypeState.LENGTH);
+        }
+    }
+
+    public void setTypeState(TypeState typeState) {
+        if (this.activeTypeState != typeState) {
+            this.activeTypeState = typeState;
+            notifyListeners();
+        }
+    }
+
+    public void appendImperialToken(String token) {
+        lastError = null;
+        imperialInput.append(token);
+        notifyListeners();
+    }
+
+    public void appendMetricToken(String token) {
+        lastError = null;
+        metricInput.append(token);
+        notifyListeners();
+    }
+
+    public String getImperialInput() {
+        return imperialInput.toString();
+    }
+
+    public String getMetricInput() {
+        return metricInput.toString();
+    }
+
+    public void clearUnit() {
+        imperialInput.setLength(0);
+        metricInput.setLength(0);
+
+        notifyListeners();
+    }
+
+    public void deleteLastUnit() {
+        StringBuilder active =
+                (getUnitState() == UnitState.IMPERIAL)
+                        ? imperialInput
+                        : metricInput;
+
+        if (active.length() > 0) {
+            active.deleteCharAt(active.length() - 1);
+            notifyListeners();
+        }
+    }
+
+ //-----------------------------------------------------------------
+
 
     /**
      * Notifies all views that the model has changed state

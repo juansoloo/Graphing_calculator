@@ -15,7 +15,7 @@ public class Main {
         EquationModel model = new EquationModel();
         DisplayView displayView = new DisplayView();
         GraphView graphView = new GraphView();
-        KeypadView keypad = new KeypadView();
+        KeypadView keypadView = new KeypadView();
         UnitView unitView = new UnitView();
 
         JFrame frame = new JFrame("Advanced Calculator");
@@ -28,16 +28,19 @@ public class Main {
         // Center area holds topArea (graph/unit) above the keypad
         JPanel center = new JPanel(new BorderLayout());
         center.add(topArea, BorderLayout.NORTH);
-        center.add(keypad.getComponent(), BorderLayout.CENTER);
+        center.add(keypadView.getComponent(), BorderLayout.CENTER);
 
         // Wire controller
         CalculatorController controller = new CalculatorController(
-                model, keypad, graphView, frame, displayView, unitView, topArea);
-        keypad.connect(controller);
+                model, keypadView, graphView, frame, displayView, unitView, topArea);
+
+        keypadView.connect(controller);
+        unitView.connect(controller);
 
         // Model listeners
         model.addListener(displayView);
         model.addListener(graphView);
+        model.addListener(unitView);
 
         // Add main components to frame
         frame.add(displayView.getComponent(), BorderLayout.NORTH);
