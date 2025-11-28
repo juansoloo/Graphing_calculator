@@ -7,7 +7,7 @@ public class UnitState implements CalculatorState  {
     @Override
     public void handleKey(String token, EquationModel model) {
         switch (token) {
-            case "=" -> model.convert(); //convert
+            case "=" -> model.convert();
             case "C" ->  model.clearUnit();
             case "DEL" ->  model.deleteLastUnit();
             case "SWAP_UNIT" ->  model.changeUnitState();

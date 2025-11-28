@@ -22,31 +22,25 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout(8, 8));
 
-        // Panel that the controller will use to show GRAPH or UNIT view
         JPanel topArea = new JPanel(new BorderLayout());
 
-        // Center area holds topArea (graph/unit) above the keypad
         JPanel center = new JPanel(new BorderLayout());
         center.add(topArea, BorderLayout.NORTH);
         center.add(keypadView.getComponent(), BorderLayout.CENTER);
 
-        // Wire controller
         CalculatorController controller = new CalculatorController(
                 model, keypadView, graphView, frame, displayView, unitView, topArea);
 
         keypadView.connect(controller);
         unitView.connect(model, controller);
 
-        // Model listeners
         model.addListener(displayView);
         model.addListener(graphView);
         model.addListener(unitView);
 
-        // Add main components to frame
         frame.add(displayView.getComponent(), BorderLayout.NORTH);
         frame.add(center, BorderLayout.CENTER);
 
-        // Initial pack and show
         frame.pack();
         frame.setLocationByPlatform(true);
         frame.setVisible(true);

@@ -104,14 +104,12 @@ public class UnitView extends View implements ModelListener {
         imperialDisplay.setText(m.getImperialInput());
         metricDisplay.setText(m.getMetricInput());
 
-        // 1) Active side label
         if (state == UnitModel.UnitState.IMPERIAL) {
             unitChangeButton.setText("IMPERIAL");
         } else {
             unitChangeButton.setText("METRIC");
         }
 
-        // 2) Mode (and only rebuild combos when mode actually changes)
         if (mode != lastMode) {
             if (mode == UnitModel.TypeState.LENGTH) {
                 typeChangeButton.setText("LENGTH");
@@ -123,7 +121,6 @@ public class UnitView extends View implements ModelListener {
             lastMode = mode;
         }
 
-        // 3) Sync combo selection with what the model says
         UnitModel um = m.getUnitModel();
         imperialCombo.setSelectedItem(um.getImperialUnit());
         metricCombo.setSelectedItem(um.getMetricUnit());
