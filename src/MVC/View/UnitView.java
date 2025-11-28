@@ -2,6 +2,7 @@ package MVC.View;
 
 import MVC.Controller.CalculatorController;
 import MVC.Model.EquationModel;
+import MVC.Model.UnitModel;
 import MVC.Observer.ModelListener;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import javax.swing.*;
 public class UnitView extends View implements ModelListener {
     private JPanel rootUnit;
 
+    private EquationModel model;
     private JTextField imperialDisplay;
     private JTextField metricDisplay;
     private JComboBox<String> imperialCombo;
@@ -17,7 +19,9 @@ public class UnitView extends View implements ModelListener {
     private JLabel equalText;
     private JButton typeChangeButton;
 
-    public void connect(CalculatorController controller) {
+    private UnitModel.TypeState lastMode = null;
+
+    public void connect(EquationModel model, CalculatorController controller) {
         unitChangeButton.setActionCommand("SWAP_UNIT");
         unitChangeButton.addActionListener(
                 e -> controller.handleKey(((JButton) e.getSource()).getActionCommand())
@@ -27,20 +31,35 @@ public class UnitView extends View implements ModelListener {
         typeChangeButton.addActionListener(
                 e -> controller.handleKey(((JButton) e.getSource()).getActionCommand())
         );
+
+
+        imperialCombo.addActionListener(e -> {
+            String unit = (String) imperialCombo.getSelectedItem();
+            if (unit != null) {
+                model.getUnitModel().setImperialUnit(unit);
+            }
+        });
+
+        metricCombo.addActionListener(e -> {
+            String unit = (String) metricCombo.getSelectedItem();
+            if (unit != null) {
+                model.getUnitModel().setMetricUnit(unit);
+            }
+        });
     }
 
     public UnitView() {
+        imperialCombo.removeAllItems();
+        metricCombo.removeAllItems();
         imperialCombo.addItem("IN");
         imperialCombo.addItem("FT");
         imperialCombo.addItem("YD");
         imperialCombo.addItem("MI");
-        imperialCombo.addItem("F°");
 
         metricCombo.addItem("MM");
         metricCombo.addItem("CM");
         metricCombo.addItem("M");
         metricCombo.addItem("KM");
-        metricCombo.addItem("C°");
 
         unitChangeButton.setText("IMPERIAL");
     }
@@ -79,27 +98,35 @@ public class UnitView extends View implements ModelListener {
 
     @Override
     public void modelChanged(EquationModel m) {
-        EquationModel.UnitState state = m.getUnitState();
-        EquationModel.TypeState mode = m.getTypeState();
+        UnitModel.UnitState state = m.getUnitState();
+        UnitModel.TypeState mode = m.getTypeState();
 
         imperialDisplay.setText(m.getImperialInput());
         metricDisplay.setText(m.getMetricInput());
 
-        // 1) Which side is active?
-        if (state == EquationModel.UnitState.IMPERIAL) {
+        // 1) Active side label
+        if (state == UnitModel.UnitState.IMPERIAL) {
             unitChangeButton.setText("IMPERIAL");
         } else {
             unitChangeButton.setText("METRIC");
         }
 
-        // 2) Which purpose are we in? (same controls, different meaning)
-        if (mode == EquationModel.TypeState.LENGTH) {
-            typeChangeButton.setText("LENGTH");
-            modCombosForLength();
-        } else {
-            typeChangeButton.setText("TEMP");
-            modCombosForTemperature();
+        // 2) Mode (and only rebuild combos when mode actually changes)
+        if (mode != lastMode) {
+            if (mode == UnitModel.TypeState.LENGTH) {
+                typeChangeButton.setText("LENGTH");
+                modCombosForLength();
+            } else {
+                typeChangeButton.setText("TEMP");
+                modCombosForTemperature();
+            }
+            lastMode = mode;
         }
+
+        // 3) Sync combo selection with what the model says
+        UnitModel um = m.getUnitModel();
+        imperialCombo.setSelectedItem(um.getImperialUnit());
+        metricCombo.setSelectedItem(um.getMetricUnit());
     }
 
 }

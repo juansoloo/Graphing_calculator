@@ -187,7 +187,8 @@ public class KeypadView extends View {
         multiButton.setVisible(false);
         divButton.setVisible(false);
         powButton.setVisible(false);
-        plusNegButton.setVisible(false);
+        plusNegButton.setVisible(true);
+        equalButton.setText("CONVERT");
     }
 
     /**

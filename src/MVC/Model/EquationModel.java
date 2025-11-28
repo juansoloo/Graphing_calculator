@@ -4,6 +4,7 @@ import Algebra.Polynomial;
 import MVC.Observer.ModelListener;
 import OperationsBundle.*;
 import Parser.EquationParser;
+import UnitConversion.UnitConversion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +18,6 @@ import java.util.List;
 public class EquationModel {
     // current expression user is typing
     private final StringBuilder input = new StringBuilder();
-
-    // string builder for imperial and metric units in UNIT mode
-    private final StringBuilder imperialInput = new StringBuilder();
-    private final StringBuilder metricInput = new StringBuilder();
-    private TypeState activeTypeState = TypeState.LENGTH;
-
-    // sets the current state of UnitView to IMPERIAL;
-    private UnitState activeUnitState = UnitState.IMPERIAL;
 
     // Last computed polynomial result
     private Polynomial lastResult = Polynomial.zero();
@@ -46,6 +39,9 @@ public class EquationModel {
 
     // Polynomial used bt the GraphView
     private Polynomial graphPoly = null;
+
+    private UnitModel unitModel = new UnitModel();
+    private final UnitConversion unitConversion = new UnitConversion();
 
     /**
      * Appends token to the current input (digit, operator, variable, etc.)
@@ -251,89 +247,123 @@ public class EquationModel {
     }
 
     //------------------------------------------------------------
-
-    public enum UnitState {
-        IMPERIAL,
-        METRIC
+    public UnitModel getUnitModel() {
+        return unitModel;
     }
 
-    public enum TypeState {
-        LENGTH,
-        TEMPERATURE
+    public UnitModel.UnitState getUnitState() {
+        return unitModel.getUnitState();
     }
 
-    public UnitState getUnitState() {
-        return activeUnitState;
-    }
-
-    public TypeState getTypeState() {
-        return activeTypeState;
+    public UnitModel.TypeState getTypeState() {
+        return unitModel.getTypeState();
     }
 
     public void changeUnitState() {
-        activeUnitState = (activeUnitState == UnitState.IMPERIAL)
-                ? UnitState.METRIC
-                : UnitState.IMPERIAL;
+        unitModel.changeUnitState();
         notifyListeners();
     }
 
     public void changeTypeState() {
-        EquationModel.TypeState current = getTypeState();
-        if (current == EquationModel.TypeState.LENGTH) {
-            setTypeState(EquationModel.TypeState.TEMPERATURE);
-        } else {
-            setTypeState(EquationModel.TypeState.LENGTH);
-        }
+        unitModel.changeTypeState();
+        notifyListeners();
     }
 
-    public void setTypeState(TypeState typeState) {
-        if (this.activeTypeState != typeState) {
-            this.activeTypeState = typeState;
-            notifyListeners();
-        }
+    public void setTypeState(UnitModel.TypeState typeState) {
+        unitModel.setTypeState(typeState);
+        notifyListeners();
     }
 
     public void appendImperialToken(String token) {
         lastError = null;
-        imperialInput.append(token);
+        unitModel.appendImperialToken(token);
         notifyListeners();
     }
 
     public void appendMetricToken(String token) {
         lastError = null;
-        metricInput.append(token);
+        unitModel.appendMetricToken(token);
         notifyListeners();
     }
 
     public String getImperialInput() {
-        return imperialInput.toString();
+        return unitModel.getImperialInput();
     }
 
     public String getMetricInput() {
-        return metricInput.toString();
+        return unitModel.getMetricInput();
     }
 
     public void clearUnit() {
-        imperialInput.setLength(0);
-        metricInput.setLength(0);
-
+        unitModel.clearUnit();
         notifyListeners();
     }
 
     public void deleteLastUnit() {
-        StringBuilder active =
-                (getUnitState() == UnitState.IMPERIAL)
-                        ? imperialInput
-                        : metricInput;
-
-        if (active.length() > 0) {
-            active.deleteCharAt(active.length() - 1);
-            notifyListeners();
-        }
+        unitModel.deleteLastUnit();
+        notifyListeners();
     }
 
- //-----------------------------------------------------------------
+    public void convert() {
+        lastError = null;
 
+        boolean isImperial = (unitModel.getUnitState() == UnitModel.UnitState.IMPERIAL);
+
+        String unitInput = isImperial
+                ? unitModel.getImperialInput()
+                : unitModel.getMetricInput();
+
+        if (unitInput == null || unitInput.isBlank()) {
+            return;
+        }
+
+        double value;
+        try {
+            value = Double.parseDouble(unitInput);
+        } catch (NumberFormatException e) {
+            showError("Invalid number");
+            return;
+        }
+
+        UnitModel.TypeState type = unitModel.getTypeState();
+        double result;
+
+        if (type == UnitModel.TypeState.LENGTH) {
+
+            String fromUnit = isImperial
+                    ? unitModel.getImperialUnit()
+                    : unitModel.getMetricUnit();
+
+            String toUnit = isImperial
+                    ? unitModel.getMetricUnit()
+                    : unitModel.getImperialUnit();
+
+            try {
+                double inBase = unitConversion.convertToBase(fromUnit, value);
+                result = unitConversion.convertToTarget(toUnit, inBase);
+            } catch (IllegalArgumentException e) {
+                showError(e.getMessage());
+                return;
+            }
+
+        } else {
+            if (isImperial) {
+                result = unitConversion.convertToCel(value);
+            } else {
+                result = unitConversion.convertToFahr(value);
+            }
+        }
+
+        String resultText = String.format("%.4f", result);
+
+        if (isImperial) {
+            unitModel.setMetricInput(resultText);
+        } else {
+            unitModel.setImperialInput(resultText);
+        }
+
+        notifyListeners();
+    }
 
     /**
      * Notifies all views that the model has changed state

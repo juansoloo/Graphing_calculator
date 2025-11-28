@@ -35,7 +35,7 @@ public class Main {
                 model, keypadView, graphView, frame, displayView, unitView, topArea);
 
         keypadView.connect(controller);
-        unitView.connect(controller);
+        unitView.connect(model, controller);
 
         // Model listeners
         model.addListener(displayView);
